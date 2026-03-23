@@ -38,9 +38,9 @@ export function TeamSwitcher() {
           >
             <div className="flex items-center gap-2">
               <div className="h-5 w-5 rounded bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
-                {t.name.charAt(0).toUpperCase()}
+                {t.name?.charAt(0)?.toUpperCase() || 'T'}
               </div>
-              <span className="truncate">{t.name}</span>
+              <span className="truncate">{t.name || 'Unnamed Team'}</span>
             </div>
             {team?._id === t._id && <Check className="h-4 w-4" />}
           </DropdownMenuItem>

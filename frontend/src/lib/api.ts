@@ -17,8 +17,16 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401 && typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      const requestUrl = error.config?.url || '';
+      const currentPath = window.location.pathname;
+      const isAuthCheck = requestUrl.includes('/auth/me');
+      const isPublicPage = ['/', '/login', '/signup'].includes(currentPath);
+
+      // Don't redirect for /auth/me (AuthContext handles it) or if already on a public page
+      if (!isAuthCheck && !isPublicPage) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

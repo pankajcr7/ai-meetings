@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
-import { Meeting, User } from '@/types';
+import { Meeting, ActionItem, User } from '@/types';
 import { format } from 'date-fns';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -32,6 +32,9 @@ import {
   Trash2,
   User as UserIcon,
   Loader2,
+  Sparkles,
+  CheckCircle2,
+  AlertCircle,
 } from 'lucide-react';
 
 const statusConfig: Record<string, { label: string; className: string }> = {
@@ -41,6 +44,12 @@ const statusConfig: Record<string, { label: string; className: string }> = {
   summarizing: { label: 'Summarizing', className: 'bg-blue-100 text-blue-800 border-blue-200' },
   completed: { label: 'Completed', className: 'bg-green-100 text-green-800 border-green-200' },
   failed: { label: 'Failed', className: 'bg-red-100 text-red-800 border-red-200' },
+};
+
+const priorityConfig: Record<string, { label: string; className: string }> = {
+  high: { label: 'High', className: 'bg-red-100 text-red-700 border-red-200' },
+  medium: { label: 'Medium', className: 'bg-yellow-100 text-yellow-700 border-yellow-200' },
+  low: { label: 'Low', className: 'bg-green-100 text-green-700 border-green-200' },
 };
 
 function formatDuration(seconds?: number): string {
@@ -66,14 +75,21 @@ export default function MeetingDetailPage() {
   const router = useRouter();
   const id = params.id as string;
   const [meeting, setMeeting] = useState<Meeting | null>(null);
+  const [actionItems, setActionItems] = useState<ActionItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [transcribing, setTranscribing] = useState(false);
+  const [transcriptInput, setTranscriptInput] = useState('');
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const fetchMeeting = useCallback(async () => {
     try {
       const res = await api.get(`/meetings/${id}`);
       setMeeting(res.data.data);
+      if (res.data.data.transcript) {
+        setTranscriptInput(res.data.data.transcript);
+      }
     } catch {
       toast.error('Failed to load meeting');
       router.push('/meetings');
@@ -82,9 +98,17 @@ export default function MeetingDetailPage() {
     }
   }, [id, router]);
 
+  const fetchActionItems = useCallback(async () => {
+    try {
+      const res = await api.get(`/meetings/${id}/action-items`);
+      setActionItems(res.data.data);
+    } catch {}
+  }, [id]);
+
   useEffect(() => {
     fetchMeeting();
-  }, [fetchMeeting]);
+    fetchActionItems();
+  }, [fetchMeeting, fetchActionItems]);
 
   const handleDelete = async () => {
     setDeleting(true);
@@ -95,6 +119,46 @@ export default function MeetingDetailPage() {
     } catch (err: any) {
       toast.error(err.response?.data?.error?.message || 'Failed to delete');
       setDeleting(false);
+    }
+  };
+
+  const handleProcess = async () => {
+    if (!transcriptInput.trim()) {
+      toast.error('Please enter or paste a transcript first');
+      return;
+    }
+
+    setProcessing(true);
+    try {
+      const res = await api.post(`/meetings/${id}/process`, {
+        transcript: transcriptInput,
+      });
+      setMeeting(res.data.data.meeting);
+      setActionItems(res.data.data.actionItems);
+      toast.success('AI processing complete!');
+    } catch (err: any) {
+      toast.error(err.response?.data?.error?.message || 'AI processing failed');
+      fetchMeeting();
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const handleAutoTranscribe = async () => {
+    setTranscribing(true);
+    try {
+      const res = await api.post(`/meetings/${id}/process`);
+      setMeeting(res.data.data.meeting);
+      setActionItems(res.data.data.actionItems);
+      if (res.data.data.meeting?.transcript) {
+        setTranscriptInput(res.data.data.meeting.transcript);
+      }
+      toast.success('Transcription & AI processing complete!');
+    } catch (err: any) {
+      toast.error(err.response?.data?.error?.message || 'Auto-transcription failed');
+      fetchMeeting();
+    } finally {
+      setTranscribing(false);
     }
   };
 
@@ -228,7 +292,14 @@ export default function MeetingDetailPage() {
         <TabsList className="w-full justify-start">
           <TabsTrigger value="transcript">Transcript</TabsTrigger>
           <TabsTrigger value="summary">Summary</TabsTrigger>
-          <TabsTrigger value="actions">Action Items</TabsTrigger>
+          <TabsTrigger value="actions">
+            Action Items
+            {actionItems.length > 0 && (
+              <Badge variant="secondary" className="ml-2 h-5 px-1.5 text-xs">
+                {actionItems.length}
+              </Badge>
+            )}
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="transcript">
           <Card>
@@ -238,11 +309,59 @@ export default function MeetingDetailPage() {
                   {meeting.transcript}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <FileAudio className="h-10 w-10 text-muted-foreground mb-3" />
+                <div className="space-y-4">
+                  {meeting.audioUrl && (
+                    <div className="p-4 border rounded-lg bg-muted/30 space-y-2">
+                      <p className="text-sm font-medium">Auto-transcribe from audio</p>
+                      <p className="text-xs text-muted-foreground">
+                        Use AI to automatically transcribe the audio recording, generate a summary, and extract action items.
+                      </p>
+                      <Button
+                        onClick={handleAutoTranscribe}
+                        disabled={transcribing || processing}
+                        className="gap-2"
+                      >
+                        {transcribing ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Mic className="h-4 w-4" />
+                        )}
+                        {transcribing ? 'Transcribing...' : 'Auto Transcribe & Process'}
+                      </Button>
+                    </div>
+                  )}
+                  {meeting.audioUrl && (
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-2 text-muted-foreground">or paste manually</span>
+                      </div>
+                    </div>
+                  )}
                   <p className="text-sm text-muted-foreground">
-                    Transcript will be available after AI processing is complete.
+                    Paste your meeting transcript below, then click "Process with AI" to generate a summary and extract action items.
                   </p>
+                  <textarea
+                    className="w-full min-h-[200px] p-3 border rounded-lg text-sm resize-y bg-background focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    placeholder="Paste your meeting transcript here..."
+                    value={transcriptInput}
+                    onChange={(e) => setTranscriptInput(e.target.value)}
+                    disabled={processing}
+                  />
+                  <Button
+                    onClick={handleProcess}
+                    disabled={processing || !transcriptInput.trim()}
+                    className="gap-2"
+                  >
+                    {processing ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="h-4 w-4" />
+                    )}
+                    {processing ? 'Processing...' : 'Process with AI'}
+                  </Button>
                 </div>
               )}
             </CardContent>
@@ -257,9 +376,11 @@ export default function MeetingDetailPage() {
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <FileAudio className="h-10 w-10 text-muted-foreground mb-3" />
+                  <Sparkles className="h-10 w-10 text-muted-foreground mb-3" />
                   <p className="text-sm text-muted-foreground">
-                    Summary will be available after AI processing is complete.
+                    {meeting.status === 'summarizing'
+                      ? 'AI is generating the summary...'
+                      : 'Add a transcript and click "Process with AI" to generate a summary.'}
                   </p>
                 </div>
               )}
@@ -269,12 +390,47 @@ export default function MeetingDetailPage() {
         <TabsContent value="actions">
           <Card>
             <CardContent className="pt-6">
-              <div className="flex flex-col items-center justify-center py-8 text-center">
-                <FileAudio className="h-10 w-10 text-muted-foreground mb-3" />
-                <p className="text-sm text-muted-foreground">
-                  Action items will be extracted after AI processing is complete.
-                </p>
-              </div>
+              {actionItems.length > 0 ? (
+                <div className="space-y-3">
+                  {actionItems.map((item) => {
+                    const priority = priorityConfig[item.priority] || priorityConfig.medium;
+                    return (
+                      <div
+                        key={item._id}
+                        className="flex items-start gap-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors"
+                      >
+                        <CheckCircle2 className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium">{item.title}</p>
+                          {item.description && (
+                            <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
+                          )}
+                          <div className="flex items-center gap-2 mt-2 flex-wrap">
+                            <Badge variant="outline" className={priority.className}>
+                              {priority.label}
+                            </Badge>
+                            {item.assignee && (
+                              <Badge variant="outline" className="gap-1">
+                                <UserIcon className="h-3 w-3" />
+                                {item.assignee}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <AlertCircle className="h-10 w-10 text-muted-foreground mb-3" />
+                  <p className="text-sm text-muted-foreground">
+                    {meeting.status === 'completed'
+                      ? 'No action items were found in this meeting.'
+                      : 'Action items will be extracted after AI processing.'}
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
