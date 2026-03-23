@@ -9,6 +9,8 @@ import {
   updateMeeting,
   deleteMeeting,
   streamAudio,
+  processMeeting,
+  getActionItems,
 } from '../controllers/meetingController';
 
 const router = Router();
@@ -20,5 +22,7 @@ router.get('/:id', auth, getMeeting);
 router.put('/:id', auth, updateMeeting);
 router.delete('/:id', auth, deleteMeeting);
 router.get('/:id/audio', auth, streamAudio);
+router.post('/:id/process', auth, processMeeting);
+router.get('/:id/action-items', auth, getActionItems);
 
 export default router;

@@ -29,7 +29,7 @@ passport.use(
     {
       clientID: config.GOOGLE_CLIENT_ID || 'placeholder-client-id',
       clientSecret: config.GOOGLE_CLIENT_SECRET || 'placeholder-client-secret',
-      callbackURL: '/api/auth/google/callback',
+      callbackURL: `http://localhost:${config.PORT}/api/auth/google/callback`,
     },
     async (_accessToken, _refreshToken, profile, done) => {
       try {

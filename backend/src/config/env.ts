@@ -21,4 +21,5 @@ export const config = {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || '',
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || '',
   FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
 };

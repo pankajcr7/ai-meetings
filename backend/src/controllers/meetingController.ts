@@ -5,6 +5,7 @@ import { AuthRequest } from '../middleware/auth';
 import Meeting from '../models/Meeting';
 import ActionItem from '../models/ActionItem';
 import Team from '../models/Team';
+import { generateSummary, extractActionItems, transcribeAudio } from '../services/aiService';
 
 const UPLOADS_DIR = path.join(__dirname, '../../uploads');
 
@@ -278,5 +279,111 @@ export const streamAudio = async (req: AuthRequest, res: Response): Promise<void
     }
   } catch (error: any) {
     res.status(500).json({ success: false, error: { message: error.message, code: 'STREAM_FAILED' } });
+  }
+};
+
+export const processMeeting = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const meeting = await Meeting.findById(req.params.id);
+
+    if (!meeting) {
+      res.status(404).json({ success: false, error: { message: 'Meeting not found', code: 'NOT_FOUND' } });
+      return;
+    }
+
+    const belongs = await userBelongsToTeam(req.user._id.toString(), meeting.team.toString());
+    if (!belongs) {
+      res.status(403).json({ success: false, error: { message: 'Access denied', code: 'FORBIDDEN' } });
+      return;
+    }
+
+    // Allow providing transcript in the request body
+    let transcript = req.body.transcript || meeting.transcript;
+
+    // Auto-transcribe from audio if no transcript provided
+    if (!transcript && meeting.audioUrl) {
+      const filePath = path.join(UPLOADS_DIR, meeting.audioUrl);
+      if (fs.existsSync(filePath)) {
+        meeting.status = 'transcribing';
+        await meeting.save();
+
+        transcript = await transcribeAudio(filePath, meeting.mimeType || 'audio/webm');
+        meeting.transcript = transcript;
+      }
+    }
+
+    if (!transcript) {
+      res.status(400).json({ success: false, error: { message: 'No transcript or audio file available to process.', code: 'NO_TRANSCRIPT' } });
+      return;
+    }
+
+    // Save transcript if provided in request
+    if (req.body.transcript && !meeting.transcript) {
+      meeting.transcript = req.body.transcript;
+    }
+
+    meeting.status = 'summarizing';
+    await meeting.save();
+
+    // Generate summary with AI
+    const summary = await generateSummary(transcript);
+    meeting.summary = summary;
+
+    // Extract action items with AI
+    const actionItems = await extractActionItems(transcript);
+
+    // Delete old action items for this meeting, then create new ones
+    await ActionItem.deleteMany({ meeting: meeting._id });
+
+    if (actionItems.length > 0) {
+      await ActionItem.insertMany(
+        actionItems.map((item) => ({
+          meeting: meeting._id,
+          team: meeting.team,
+          title: item.title,
+          description: item.description,
+          assignee: item.assignee,
+          priority: item.priority,
+          status: 'pending',
+        }))
+      );
+    }
+
+    meeting.status = 'completed';
+    meeting.processedAt = new Date();
+    await meeting.save();
+
+    const populated = await Meeting.findById(meeting._id).populate('uploadedBy', 'name avatar email');
+    const items = await ActionItem.find({ meeting: meeting._id });
+
+    res.json({ success: true, data: { meeting: populated, actionItems: items } });
+  } catch (error: any) {
+    // Mark as failed on error
+    try {
+      await Meeting.findByIdAndUpdate(req.params.id, { status: 'failed', errorMessage: error.message });
+    } catch {}
+    res.status(500).json({ success: false, error: { message: error.message, code: 'PROCESS_FAILED' } });
+  }
+};
+
+export const getActionItems = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const meeting = await Meeting.findById(req.params.id);
+
+    if (!meeting) {
+      res.status(404).json({ success: false, error: { message: 'Meeting not found', code: 'NOT_FOUND' } });
+      return;
+    }
+
+    const belongs = await userBelongsToTeam(req.user._id.toString(), meeting.team.toString());
+    if (!belongs) {
+      res.status(403).json({ success: false, error: { message: 'Access denied', code: 'FORBIDDEN' } });
+      return;
+    }
+
+    const items = await ActionItem.find({ meeting: meeting._id }).sort({ createdAt: -1 });
+    res.json({ success: true, data: items });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: { message: error.message, code: 'FETCH_FAILED' } });
   }
 };
