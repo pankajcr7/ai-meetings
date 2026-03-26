@@ -556,55 +556,251 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ FEATURES SECTION ═══ */}
-      <section id="features" className="relative py-32 bg-black">
-        <div className="max-w-7xl mx-auto px-6">
+      <section id="features" className="relative py-32 bg-black overflow-hidden">
+        {/* Background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-lime-400/5 rounded-full blur-3xl" />
+        
+        <div className="relative max-w-7xl mx-auto px-6">
           {/* Section Header */}
           <motion.div
-            className="text-center max-w-2xl mx-auto mb-20"
+            className="text-center max-w-3xl mx-auto mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-flex items-center gap-2 text-[12px] font-semibold text-lime-400 uppercase tracking-[0.2em] mb-4">
-              <Zap className="w-4 h-4" />
-              Features
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Everything You Need
+            <motion.div 
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lime-400/10 border border-lime-400/20 mb-6"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Zap className="w-4 h-4 text-lime-400" />
+              <span className="text-[12px] font-semibold text-lime-400 uppercase tracking-wider">Powerful Features</span>
+            </motion.div>
+            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              Your Meetings,<br />
+              <span className="text-gradient-lime">Supercharged</span>
             </h2>
-            <p className="text-white/50 text-[16px]">
-              Powerful AI tools to transform your meetings into actionable insights
+            <p className="text-white/50 text-lg max-w-xl mx-auto">
+              Stop taking notes. Start having better conversations. Our AI captures everything that matters.
             </p>
           </motion.div>
 
-          {/* Feature Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: Mic, title: 'Real-time Transcription', desc: 'Instant speech-to-text conversion with speaker identification' },
-              { icon: Brain, title: 'AI Summarization', desc: 'Get concise meeting summaries with key points extracted' },
-              { icon: ListChecks, title: 'Action Items', desc: 'Automatically identify and track tasks from conversations' },
-              { icon: Upload, title: 'Multi-format Upload', desc: 'Import audio/video files in any format for processing' },
-              { icon: Globe, title: '30+ Languages', desc: 'Support for global teams with real-time translation' },
-              { icon: Shield, title: 'Enterprise Security', desc: 'End-to-end encryption and compliance certifications' },
-            ].map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="group p-8 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-lime-400/30 transition-all duration-300"
-              >
-                <div className="w-14 h-14 rounded-xl bg-lime-400/10 flex items-center justify-center mb-6 group-hover:bg-lime-400/20 transition-colors">
-                  <feature.icon className="w-7 h-7 text-lime-400" />
+          {/* Bento Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-min">
+            
+            {/* Large Card - Real-time Transcription */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              whileHover={{ y: -5 }}
+              className="md:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 hover:border-lime-400/40 transition-all duration-500"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-lime-400/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative p-8 h-full flex flex-col">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-lime-400/20 flex items-center justify-center">
+                    <Mic className="w-7 h-7 text-lime-400" />
+                  </div>
+                  <span className="px-3 py-1 rounded-full bg-lime-400/20 text-lime-400 text-[11px] font-semibold">LIVE</span>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-                <p className="text-[14px] text-white/50 leading-relaxed">{feature.desc}</p>
-              </motion.div>
-            ))}
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">Real-time Transcription</h3>
+                <p className="text-white/50 text-[15px] leading-relaxed mb-6">
+                  Every word captured instantly. Speaker identification, timestamps, and perfect accuracy in 30+ languages.
+                </p>
+                {/* Waveform visualization */}
+                <div className="mt-auto">
+                  <div className="flex items-end gap-1 h-24">
+                    {Array.from({ length: 40 }).map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="flex-1 bg-lime-400/60 rounded-full"
+                        animate={{
+                          height: ['20%', `${Math.random() * 80 + 20}%`, '20%'],
+                        }}
+                        transition={{
+                          duration: 1.2,
+                          repeat: Infinity,
+                          delay: i * 0.05,
+                          ease: 'easeInOut',
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Medium Card - AI Insights */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ y: -5 }}
+              className="md:col-span-1 lg:row-span-2 group relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 hover:border-lime-400/40 transition-all duration-500"
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-lime-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative p-6 h-full flex flex-col">
+                <div className="w-12 h-12 rounded-xl bg-lime-400/10 flex items-center justify-center mb-4">
+                  <Brain className="w-6 h-6 text-lime-400" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">AI Summaries</h3>
+                <p className="text-white/50 text-[14px] leading-relaxed mb-4">
+                  Get the key takeaways without reading the entire transcript.
+                </p>
+                {/* AI Processing Animation */}
+                <div className="mt-auto space-y-3">
+                  {[
+                    { text: 'Key decisions made', icon: '✓' },
+                    { text: 'Action items extracted', icon: '✓' },
+                    { text: 'Sentiment analyzed', icon: '✓' },
+                  ].map((item, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + i * 0.15 }}
+                      className="flex items-center gap-3"
+                    >
+                      <div className="w-5 h-5 rounded-full bg-lime-400/20 flex items-center justify-center text-lime-400 text-[10px]">
+                        {item.icon}
+                      </div>
+                      <span className="text-[13px] text-white/70">{item.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Small Card - Action Items */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ y: -5 }}
+              className="group relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 hover:border-lime-400/40 transition-all duration-500 p-6"
+            >
+              <div className="w-12 h-12 rounded-xl bg-lime-400/10 flex items-center justify-center mb-4">
+                <ListChecks className="w-6 h-6 text-lime-400" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Action Items</h3>
+              <p className="text-white/50 text-[13px]">
+                Auto-extract tasks and assign owners. Nothing falls through the cracks.
+              </p>
+            </motion.div>
+
+            {/* Small Card - Upload */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ y: -5 }}
+              className="group relative overflow-hidden rounded-3xl bg-white/[0.02] border border-white/10 hover:border-lime-400/40 transition-all duration-500 p-6"
+            >
+              <div className="w-12 h-12 rounded-xl bg-lime-400/10 flex items-center justify-center mb-4">
+                <Upload className="w-6 h-6 text-lime-400" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Upload Anything</h3>
+              <p className="text-white/50 text-[13px]">
+                MP3, MP4, WAV, MOV — we handle it all. Even Zoom recordings.
+              </p>
+            </motion.div>
+
+            {/* Wide Card - Dashboard Preview with Image */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              whileHover={{ y: -5 }}
+              className="md:col-span-3 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-lime-400/10 to-transparent border border-lime-400/20 hover:border-lime-400/50 transition-all duration-500"
+            >
+              <div className="grid md:grid-cols-2 gap-0">
+                <div className="p-8 flex flex-col justify-center">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime-400/20 w-fit mb-4">
+                    <Sparkles className="w-3 h-3 text-lime-400" />
+                    <span className="text-[11px] font-semibold text-lime-400">DASHBOARD</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Your Command Center</h3>
+                  <p className="text-white/50 text-[14px] leading-relaxed mb-6">
+                    All your meetings, transcripts, and insights in one beautiful interface. Search across everything instantly.
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <div className="flex -space-x-2">
+                      {['bg-lime-400', 'bg-lime-500', 'bg-lime-600'].map((c, i) => (
+                        <div key={i} className={`w-8 h-8 rounded-full ${c} border-2 border-black flex items-center justify-center text-[10px] font-bold text-black`}>
+                          {['JD', 'SK', 'AM'][i]}
+                        </div>
+                      ))}
+                    </div>
+                    <span className="text-[13px] text-white/50">Team collaboration made easy</span>
+                  </div>
+                </div>
+                <div className="relative h-64 md:h-auto overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/80 z-10" />
+                  <img 
+                    src="/images/dashboard-dark.png" 
+                    alt="AI Meeting Dashboard" 
+                    className="w-full h-full object-cover object-left transform group-hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Stats Row */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="md:col-span-3 lg:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-4"
+            >
+              {[
+                { value: '30+', label: 'Languages Supported', icon: Globe },
+                { value: '99.9%', label: 'Accuracy Rate', icon: Check },
+                { value: '< 2s', label: 'Processing Time', icon: Zap },
+                { value: 'SOC2', label: 'Certified Security', icon: Shield },
+              ].map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 + i * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  className="group p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-lime-400/30 transition-all duration-300 text-center"
+                >
+                  <stat.icon className="w-6 h-6 text-lime-400 mx-auto mb-3" />
+                  <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
+                  <div className="text-[12px] text-white/40">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
+
           </div>
+
+          {/* Bottom CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="mt-16 text-center"
+          >
+            <Link
+              href="/signup"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-lime-400 text-black font-semibold text-[15px] hover:bg-lime-300 transition-all duration-300 group"
+            >
+              <Play className="w-5 h-5 fill-current" />
+              Experience the Magic
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
