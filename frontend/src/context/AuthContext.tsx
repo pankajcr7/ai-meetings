@@ -74,6 +74,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [refreshUser]);
 
   const login = async (email: string, password: string) => {
+    // Hardcoded credentials for demo access
+    if (email === 'pankaj@gmail.com' && password === 'pankaj@123') {
+      const mockUser: User = {
+        _id: 'demo-user-001',
+        email: 'pankaj@gmail.com',
+        name: 'Pankaj',
+        teams: [{
+          _id: 'demo-team-001',
+          name: 'Demo Team',
+          owner: 'demo-user-001',
+          members: [],
+          createdAt: new Date().toISOString(),
+        } as Team],
+        activeTeam: {
+          _id: 'demo-team-001',
+          name: 'Demo Team',
+          owner: 'demo-user-001',
+          members: [],
+          createdAt: new Date().toISOString(),
+        } as Team,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      const mockToken = 'demo-token-' + Date.now();
+      setAuthData(mockUser, mockToken);
+      return;
+    }
+    
     const { data } = await api.post('/auth/login', { email, password });
     setAuthData(data.user, data.token);
   };
