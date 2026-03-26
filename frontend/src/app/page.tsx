@@ -43,6 +43,8 @@ import {
   Calendar,
   Bot,
   Radio,
+  Rocket,
+  CheckCircle,
 } from 'lucide-react';
 
 /* ═══════════════════ PLATFORM ICONS - REAL BRAND LOGOS ═══════════════════ */
@@ -1310,55 +1312,207 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ CTA SECTION ═══ */}
-      <section id="contact" className="relative py-32 bg-black">
-        <div className="max-w-4xl mx-auto px-6">
+      {/* ═══ POWER SECTION ═══ */}
+      <section id="power" className="relative py-32 bg-[#050505] overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-lime-400/10 rounded-full blur-[100px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-lime-400/5 rounded-full blur-[80px]" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-6">
+          {/* Section Header */}
           <motion.div
-            className="relative text-center rounded-3xl overflow-hidden p-12 md:p-20 border border-lime-400/20"
+            className="text-center max-w-3xl mx-auto mb-20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            {/* Background */}
-            <div className="absolute inset-0 bg-lime-400/5" />
-            <div className="absolute inset-0 opacity-20" style={{
-              backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(163, 230, 53, 0.3) 1px, transparent 0)',
-              backgroundSize: '24px 24px'
-            }} />
+            <motion.div 
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lime-400/10 border border-lime-400/20 mb-6"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Rocket className="w-4 h-4 text-lime-400" />
+              <span className="text-[12px] font-semibold text-lime-400 uppercase tracking-wider">Why Teams Choose Us</span>
+            </motion.div>
+            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              Never Miss a<br />
+              <span className="text-gradient-lime">Critical Moment</span>
+            </h2>
+            <p className="text-white/50 text-lg max-w-2xl mx-auto">
+              While others take notes, you'll be fully present. Our AI captures everything, 
+              so you never have to choose between listening and documenting.
+            </p>
+          </motion.div>
 
-            <div className="relative z-10">
+          {/* Feature Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            {[
+              {
+                icon: Bot,
+                title: "AI Bot Joins Automatically",
+                desc: "No extensions. No plugins. Our bot detects your scheduled meetings and joins without you lifting a finger.",
+                stat: "100%",
+                statLabel: "Hands-free",
+                color: "lime"
+              },
+              {
+                icon: Brain,
+                title: "Smarter Than Notes",
+                desc: "Not just transcription. Action items, decisions, blockers, and sentiment—all extracted automatically.",
+                stat: "95%",
+                statLabel: "Accuracy",
+                color: "cyan"
+              },
+              {
+                icon: Zap,
+                title: "Instant Share to 50+ Tools",
+                desc: "Summaries land in Slack, tasks sync to Asana, deals update in Salesforce. Zero manual work.",
+                stat: "3s",
+                statLabel: "Sync time",
+                color: "amber"
+              }
+            ].map((feature, i) => (
               <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-lime-400/10 border border-lime-400/30 mb-8"
+                transition={{ delay: i * 0.15 }}
+                whileHover={{ y: -8 }}
+                className="group relative p-8 rounded-3xl bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/10 hover:border-lime-400/30 transition-all duration-500"
               >
-                <Sparkles className="w-7 h-7 text-lime-400" />
+                <div className={`absolute inset-0 bg-gradient-to-br ${
+                  feature.color === 'lime' ? 'from-lime-400/10' : 
+                  feature.color === 'cyan' ? 'from-cyan-400/10' : 
+                  'from-amber-400/10'
+                } via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl`} />
+                
+                <div className="relative">
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${
+                    feature.color === 'lime' ? 'bg-lime-400/20' : 
+                    feature.color === 'cyan' ? 'bg-cyan-400/20' : 
+                    'bg-amber-400/20'
+                  }`}>
+                    <feature.icon className={`w-7 h-7 ${
+                      feature.color === 'lime' ? 'text-lime-400' : 
+                      feature.color === 'cyan' ? 'text-cyan-400' : 
+                      'text-amber-400'
+                    }`} />
+                  </div>
+                  
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className={`text-4xl font-bold ${
+                      feature.color === 'lime' ? 'text-lime-400' : 
+                      feature.color === 'cyan' ? 'text-cyan-400' : 
+                      'text-amber-400'
+                    }`}>{feature.stat}</span>
+                    <span className="text-sm text-white/50">{feature.statLabel}</span>
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                  <p className="text-white/50 text-[15px] leading-relaxed">{feature.desc}</p>
+                </div>
               </motion.div>
+            ))}
+          </div>
 
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Ready to Transform<br />Your Meetings?
-              </h2>
-              <p className="text-white/50 text-[16px] max-w-md mx-auto mb-8">
-                Join thousands of teams who never miss a key insight. 
-                Start your free trial today.
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link
-                  href="/signup"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-lime-400 text-black font-semibold text-[15px] hover:bg-lime-300 transition-all duration-300 group"
-                >
-                  Get Started Free
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <Link
-                  href="/login"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white font-medium text-[15px] hover:border-lime-400/50 hover:text-lime-400 transition-all duration-300"
-                >
-                  Sign In
-                </Link>
+          {/* Social Proof + CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="relative rounded-3xl bg-gradient-to-br from-lime-400/20 via-lime-400/5 to-transparent border border-lime-400/30 p-8 md:p-12"
+          >
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex -space-x-3">
+                    {[1,2,3,4,5].map((i) => (
+                      <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-lime-400/30 to-lime-400/10 border-2 border-black flex items-center justify-center text-[10px] font-bold text-lime-400">
+                        {String.fromCharCode(64 + i)}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-sm">
+                    <div className="flex items-center gap-1 text-amber-400 mb-1">
+                      {[1,2,3,4,5].map((i) => (
+                        <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <p className="text-white/60">Trusted by 10,000+ teams</p>
+                  </div>
+                </div>
+                
+                <h3 className="text-3xl font-bold text-white mb-4">
+                  Join the Meeting Revolution
+                </h3>
+                <p className="text-white/50 mb-6">
+                  Stop taking notes. Start having better conversations. 
+                  Get started free—no credit card required.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <Link
+                    href="/signup"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-lime-400 text-black font-semibold text-[15px] hover:bg-lime-300 transition-all duration-300 group"
+                  >
+                    Start Free Trial
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <div className="flex items-center gap-2 text-white/40 text-sm">
+                    <CheckCircle className="w-4 h-4 text-lime-400" />
+                    14-day free trial
+                  </div>
+                </div>
+              </div>
+              
+              {/* Mini Demo Preview */}
+              <div className="relative hidden md:block">
+                <div className="relative rounded-2xl bg-black/50 border border-white/10 p-6 overflow-hidden">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="flex gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                    </div>
+                    <span className="ml-2 text-xs text-white/40">AI Processing...</span>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "100%" }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.5 }}
+                      className="h-2 bg-gradient-to-r from-lime-400/50 to-lime-400 rounded-full"
+                    />
+                    <div className="flex gap-3">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: "70%" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.7 }}
+                        className="h-2 bg-white/20 rounded-full"
+                      />
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: "30%" }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.9 }}
+                        className="h-2 bg-lime-400/30 rounded-full"
+                      />
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <span className="px-3 py-1 rounded-full bg-lime-400/20 text-lime-400 text-xs">Action Items: 5</span>
+                      <span className="px-3 py-1 rounded-full bg-cyan-400/20 text-cyan-400 text-xs">Decisions: 3</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
