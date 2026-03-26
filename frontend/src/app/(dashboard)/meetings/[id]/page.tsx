@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import api from '@/lib/api';
+import api, { API_BASE_URL } from '@/lib/api';
 import toast from 'react-hot-toast';
 import { Meeting, ActionItem, User } from '@/types';
 import { format } from 'date-fns';
@@ -219,7 +219,7 @@ export default function MeetingDetailPage() {
 
   const status = statusConfig[meeting.status] || statusConfig.processing;
   const user = getUserInfo(meeting.uploadedBy);
-  const audioSrc = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/meetings/${meeting._id}/audio`;
+  const audioSrc = `${API_BASE_URL}/api/meetings/${meeting._id}/audio`;
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   return (

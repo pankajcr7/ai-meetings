@@ -1,10 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { API_BASE_URL } from '@/lib/api';
 
 export function GoogleAuthButton() {
   const handleGoogleAuth = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/google`;
+    window.location.href = `${API_BASE_URL}/api/auth/google`;
   };
 
   return (

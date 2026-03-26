@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: ai-meetings-backend
+    runtime: node
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: FRONTEND_URL
+        value: https://ai-meetings.vercel.app
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/backend/uploads
+      sizeGB: 1

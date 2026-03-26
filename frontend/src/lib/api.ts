@@ -1,7 +1,15 @@
 import axios from 'axios';
 
+// HARDCODED: Change this to your deployed backend URL when you deploy the backend
+// Then update this URL and redeploy the frontend
+export const API_BASE_URL = 'https://ai-meetings-backend.onrender.com';
+export const API_URL = `${API_BASE_URL}/api`;
+
+// Use environment variable if available (for local dev)
+// export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
+  baseURL: API_URL,
   withCredentials: true,
 });
 
