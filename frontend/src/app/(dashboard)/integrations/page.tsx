@@ -464,25 +464,96 @@ export default function IntegrationsPage() {
             </CardContent>
           </Card>
 
-          {/* Connected Calendars */}
-          <Card>
+          {/* Connect Calendar CTA */}
+          <Card className="border-blue-200 bg-blue-50/50">
             <CardHeader>
-              <CardTitle className="text-sm">Connected Calendars</CardTitle>
+              <CardTitle className="text-sm flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-blue-600" />
+                Connect Your Calendar
+              </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-3">
               {integrations.filter(i => i.category === 'calendar' && i.status === 'connected').length === 0 ? (
-                <p className="text-sm text-muted-foreground">No calendars connected</p>
+                <>
+                  <p className="text-sm text-muted-foreground">
+                    Connect Google Calendar or Outlook to automatically detect and record your meetings.
+                  </p>
+                  <div className="space-y-2">
+                    {integrations
+                      .filter(i => i.category === 'calendar')
+                      .map(calendar => (
+                        <Button
+                          key={calendar.type}
+                          variant="outline"
+                          size="sm"
+                          className="w-full justify-between"
+                          onClick={() => handleConnect(calendar.type)}
+                          disabled={connecting === calendar.type}
+                        >
+                          <span className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4" />
+                            {calendar.name}
+                          </span>
+                          {connecting === calendar.type ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <span className="text-xs text-blue-600">Connect</span>
+                          )}
+                        </Button>
+                      ))}
+                  </div>
+                </>
               ) : (
-                <div className="space-y-2">
-                  {integrations
-                    .filter(i => i.category === 'calendar' && i.status === 'connected')
-                    .map(calendar => (
-                      <div key={calendar.type} className="flex items-center gap-2 text-sm">
-                        <Check className="h-4 w-4 text-green-500" />
-                        {calendar.name}
-                      </div>
-                    ))}
-                </div>
+                <>
+                  <p className="text-sm text-green-700 font-medium">
+                    {integrations.filter(i => i.category === 'calendar' && i.status === 'connected').length} calendar(s) connected
+                  </p>
+                  <div className="space-y-2">
+                    {integrations
+                      .filter(i => i.category === 'calendar' && i.status === 'connected')
+                      .map(calendar => (
+                        <div key={calendar.type} className="flex items-center justify-between p-2 rounded-lg bg-white border">
+                          <div className="flex items-center gap-2 text-sm">
+                            <div className="h-2 w-2 rounded-full bg-green-500" />
+                            {calendar.name}
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-auto py-1 px-2 text-xs text-red-500 hover:text-red-600"
+                            onClick={() => handleDisconnect(calendar.type)}
+                          >
+                            Disconnect
+                          </Button>
+                        </div>
+                      ))}
+                  </div>
+                  <Separator className="my-2" />
+                  <div className="space-y-2">
+                    {integrations
+                      .filter(i => i.category === 'calendar' && i.status !== 'connected')
+                      .map(calendar => (
+                        <Button
+                          key={calendar.type}
+                          variant="outline"
+                          size="sm"
+                          className="w-full justify-between"
+                          onClick={() => handleConnect(calendar.type)}
+                          disabled={connecting === calendar.type}
+                        >
+                          <span className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4" />
+                            {calendar.name}
+                          </span>
+                          {connecting === calendar.type ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <span className="text-xs text-blue-600">Connect</span>
+                          )}
+                        </Button>
+                      ))}
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>
