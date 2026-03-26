@@ -11,6 +11,7 @@ import {
   streamAudio,
   processMeeting,
   getActionItems,
+  searchMeetings,
 } from '../controllers/meetingController';
 
 const router = Router();
@@ -18,6 +19,7 @@ const router = Router();
 router.post('/upload', auth, upload.single('file'), uploadMeeting);
 router.post('/record', auth, upload.single('file'), saveRecording);
 router.get('/', auth, listMeetings);
+router.get('/search', auth, searchMeetings); // Company Memory Search
 router.get('/:id', auth, getMeeting);
 router.put('/:id', auth, updateMeeting);
 router.delete('/:id', auth, deleteMeeting);

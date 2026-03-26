@@ -25,6 +25,47 @@ export interface Team {
   createdAt: string;
 }
 
+export interface MeetingQuality {
+  overallScore: number;
+  engagement: number;
+  clarity: number;
+  actionability: number;
+  participation: number;
+  feedback?: string;
+  improvements?: string[];
+}
+
+export interface SentimentPoint {
+  timestamp: string;
+  score: number;
+  label: 'negative' | 'neutral' | 'positive';
+  speaker?: string;
+  topic?: string;
+}
+
+export interface Decision {
+  text: string;
+  madeBy?: string;
+  timestamp?: string;
+  impact: 'low' | 'medium' | 'high';
+  status: 'proposed' | 'confirmed' | 'rejected';
+}
+
+export interface Conflict {
+  topic: string;
+  participants: string[];
+  timestamp: string;
+  severity: 'minor' | 'moderate' | 'serious';
+  resolution?: string;
+}
+
+export interface MeetingCost {
+  totalCost: number;
+  hourlyRate: number;
+  participantCount: number;
+  currency: string;
+}
+
 export interface Meeting {
   _id: string;
   title: string;
@@ -41,6 +82,16 @@ export interface Meeting {
   mimeType?: string;
   errorMessage?: string;
   processedAt?: string;
+  
+  // Unique AI features
+  quality?: MeetingQuality;
+  decisions?: Decision[];
+  sentimentTimeline?: SentimentPoint[];
+  meetingCost?: MeetingCost;
+  conflicts?: Conflict[];
+  voiceSummaryUrl?: string;
+  companyMemoryIndexed?: boolean;
+  
   createdAt: string;
   updatedAt: string;
 }

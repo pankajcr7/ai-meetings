@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MeetingsList } from '@/components/meetings/MeetingsList';
 import { UploadMeetingDialog } from '@/components/meetings/UploadMeetingDialog';
+import { CompanyMemorySearch } from '@/components/meetings/CompanyMemorySearch';
 import { FileAudio, ListChecks, Clock, Upload, Mic } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -78,20 +79,24 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Recent Meetings</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <MeetingsList
-            key={listKey}
-            limit={5}
-            showPagination={false}
-            onUploadClick={() => setUploadOpen(true)}
-            onRecordClick={() => router.push('/meetings/record')}
-          />
-        </CardContent>
-      </Card>
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Recent Meetings</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <MeetingsList
+              key={listKey}
+              limit={5}
+              showPagination={false}
+              onUploadClick={() => setUploadOpen(true)}
+              onRecordClick={() => router.push('/meetings/record')}
+            />
+          </CardContent>
+        </Card>
+
+        <CompanyMemorySearch />
+      </div>
 
       <UploadMeetingDialog
         open={uploadOpen}
