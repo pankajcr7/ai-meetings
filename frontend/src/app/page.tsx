@@ -36,6 +36,10 @@ import {
   Sparkles,
   Zap,
   Check,
+  Plug,
+  Video,
+  Layers,
+  Briefcase,
 } from 'lucide-react';
 
 /* ═══════════════════ ANIMATED COUNTER ═══════════════════ */
@@ -804,126 +808,257 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══ SERVICES SECTION ═══ */}
-      <section id="services" className="relative py-32 bg-[#050505]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="inline-flex items-center gap-2 text-[12px] font-semibold text-lime-400 uppercase tracking-[0.2em] mb-4">
-                <Sparkles className="w-4 h-4" />
-                Services
-              </span>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                How It Works
-              </h2>
-              <p className="text-white/50 text-[16px] mb-8 leading-relaxed">
-                Our AI meeting assistant seamlessly integrates into your workflow, 
-                capturing every important detail so you can focus on the conversation.
-              </p>
+      {/* ═══ INTEGRATIONS SECTION ═══ */}
+      <section id="integrations" className="relative py-32 bg-[#050505] overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-3xl" />
+        </div>
 
-              <div className="space-y-6">
+        <div className="relative max-w-7xl mx-auto px-6">
+          {/* Section Header */}
+          <motion.div
+            className="text-center max-w-3xl mx-auto mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div 
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lime-400/10 border border-lime-400/20 mb-6"
+              whileHover={{ scale: 1.05 }}
+            >
+              <Plug className="w-4 h-4 text-lime-400" />
+              <span className="text-[12px] font-semibold text-lime-400 uppercase tracking-wider">Integrations</span>
+            </motion.div>
+            <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+              Works With Your<br />
+              <span className="text-gradient-lime">Favorite Tools</span>
+            </h2>
+            <p className="text-white/50 text-lg max-w-xl mx-auto">
+              Our AI bot joins your meetings automatically. No plugins to install, no extensions to configure.
+            </p>
+          </motion.div>
+
+          {/* Integration Categories */}
+          <div className="space-y-12">
+            
+            {/* Video Conferencing */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <Video className="w-5 h-5 text-lime-400" />
+                <h3 className="text-lg font-semibold text-white">Video Conferencing</h3>
+                <div className="flex-1 h-px bg-white/10" />
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { step: '01', title: 'Record or Upload', desc: 'Start recording live or upload existing audio/video files' },
-                  { step: '02', title: 'AI Processing', desc: 'Our AI transcribes, summarizes, and extracts insights' },
-                  { step: '03', title: 'Share & Action', desc: 'Distribute summaries and track action items automatically' },
-                ].map((item, i) => (
+                  { name: 'Zoom', icon: '📹', color: 'from-blue-500/20 to-blue-600/10', desc: 'Auto-join & record' },
+                  { name: 'Google Meet', icon: '🎥', color: 'from-green-500/20 to-green-600/10', desc: 'Chrome extension' },
+                  { name: 'Microsoft Teams', icon: '👥', color: 'from-purple-500/20 to-purple-600/10', desc: 'Bot integration' },
+                  { name: 'Webex', icon: '🌐', color: 'from-blue-400/20 to-blue-500/10', desc: 'Meeting assistant' },
+                ].map((platform, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.15 }}
-                    className="flex gap-5"
+                    transition={{ delay: i * 0.1 }}
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`group relative p-6 rounded-2xl bg-gradient-to-br ${platform.color} border border-white/10 hover:border-lime-400/30 transition-all duration-300`}
                   >
-                    <div className="flex flex-col items-center">
-                      <div className="w-12 h-12 rounded-full bg-lime-400/10 border border-lime-400/30 flex items-center justify-center">
-                        <span className="text-[14px] font-bold text-lime-400">{item.step}</span>
-                      </div>
-                      {i < 2 && <div className="w-px flex-1 bg-white/10 my-2" />}
-                    </div>
-                    <div className="pb-6">
-                      <h4 className="text-lg font-semibold text-white mb-1">{item.title}</h4>
-                      <p className="text-[14px] text-white/50">{item.desc}</p>
-                    </div>
+                    <div className="text-3xl mb-3">{platform.icon}</div>
+                    <h4 className="text-lg font-semibold text-white mb-1">{platform.name}</h4>
+                    <p className="text-[13px] text-white/50">{platform.desc}</p>
+                    <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
                   </motion.div>
                 ))}
               </div>
             </motion.div>
 
-            {/* Right Content - Visual */}
+            {/* Productivity & Collaboration */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative"
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <div className="relative rounded-2xl overflow-hidden border border-white/10">
-                <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 to-transparent" />
-                <div className="p-8 space-y-4">
-                  {/* Mock UI */}
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-full bg-lime-400 flex items-center justify-center">
-                      <Mic className="w-5 h-5 text-black" />
-                    </div>
-                    <div>
-                      <div className="text-[14px] font-semibold text-white">Product Team Standup</div>
-                      <div className="text-[12px] text-lime-400">Recording in progress...</div>
-                    </div>
-                  </div>
+              <div className="flex items-center gap-3 mb-6">
+                <Layers className="w-5 h-5 text-lime-400" />
+                <h3 className="text-lg font-semibold text-white">Productivity & Collaboration</h3>
+                <div className="flex-1 h-px bg-white/10" />
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { name: 'Slack', icon: '💬', color: 'from-purple-500/20 to-purple-600/10', desc: 'Auto-share summaries' },
+                  { name: 'Notion', icon: '📝', color: 'from-gray-500/20 to-gray-600/10', desc: 'Meeting database' },
+                  { name: 'Asana', icon: '✅', color: 'from-pink-500/20 to-pink-600/10', desc: 'Task sync' },
+                  { name: 'Trello', icon: '📋', color: 'from-blue-500/20 to-blue-600/10', desc: 'Card creation' },
+                ].map((platform, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 + i * 0.1 }}
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`group relative p-6 rounded-2xl bg-gradient-to-br ${platform.color} border border-white/10 hover:border-lime-400/30 transition-all duration-300`}
+                  >
+                    <div className="text-3xl mb-3">{platform.icon}</div>
+                    <h4 className="text-lg font-semibold text-white mb-1">{platform.name}</h4>
+                    <p className="text-[13px] text-white/50">{platform.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
 
-                  <div className="space-y-3">
+            {/* CRM & Sales */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <Briefcase className="w-5 h-5 text-lime-400" />
+                <h3 className="text-lg font-semibold text-white">CRM & Sales</h3>
+                <div className="flex-1 h-px bg-white/10" />
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { name: 'Salesforce', icon: '☁️', color: 'from-blue-400/20 to-blue-500/10', desc: 'Lead tracking' },
+                  { name: 'HubSpot', icon: '🎯', color: 'from-orange-500/20 to-orange-600/10', desc: 'Contact sync' },
+                  { name: 'Pipedrive', icon: '📊', color: 'from-green-500/20 to-green-600/10', desc: 'Deal updates' },
+                  { name: 'Zapier', icon: '⚡', color: 'from-orange-400/20 to-orange-500/10', desc: '5,000+ apps' },
+                ].map((platform, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.5 + i * 0.1 }}
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className={`group relative p-6 rounded-2xl bg-gradient-to-br ${platform.color} border border-white/10 hover:border-lime-400/30 transition-all duration-300`}
+                  >
+                    <div className="text-3xl mb-3">{platform.icon}</div>
+                    <h4 className="text-lg font-semibold text-white mb-1">{platform.name}</h4>
+                    <p className="text-[13px] text-white/50">{platform.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+          </div>
+
+          {/* How It Works - Auto Recording */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="mt-20"
+          >
+            <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-lime-400/10 to-lime-500/5 border border-lime-400/20 p-8 md:p-12">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-lime-400/10 rounded-full blur-3xl" />
+              
+              <div className="relative grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    Auto-Recording Bot
+                  </h3>
+                  <p className="text-white/60 text-lg mb-8">
+                    Our AI bot automatically joins your scheduled meetings and starts recording. No manual intervention needed.
+                  </p>
+                  
+                  <div className="space-y-4">
                     {[
-                      { user: 'Alex', text: 'Shipped the new dashboard feature yesterday', time: '0:34' },
-                      { user: 'Jordan', text: 'Working on API optimization, ETA tomorrow', time: '1:12' },
-                      { user: 'Casey', text: 'User testing results look promising', time: '2:05' },
-                    ].map((msg, i) => (
+                      { step: '1', text: 'Connect your calendar (Google/Outlook)' },
+                      { step: '2', text: 'AI bot auto-joins scheduled meetings' },
+                      { step: '3', text: 'Recording & transcription starts automatically' },
+                      { step: '4', text: 'Insights delivered to your preferred tools' },
+                    ].map((item, i) => (
                       <motion.div
                         key={i}
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: i * 0.2 }}
-                        className="flex gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5"
+                        transition={{ delay: 0.7 + i * 0.1 }}
+                        className="flex items-center gap-4"
                       >
-                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-semibold text-white">
-                          {msg.user[0]}
+                        <div className="w-10 h-10 rounded-full bg-lime-400/20 flex items-center justify-center">
+                          <span className="text-lime-400 font-bold">{item.step}</span>
                         </div>
-                        <div className="flex-1">
-                          <div className="flex items-baseline gap-2 mb-1">
-                            <span className="text-[12px] font-medium text-white">{msg.user}</span>
-                            <span className="text-[10px] text-white/30">{msg.time}</span>
-                          </div>
-                          <p className="text-[13px] text-white/60">{msg.text}</p>
-                        </div>
+                        <span className="text-white/80">{item.text}</span>
                       </motion.div>
                     ))}
                   </div>
+                </div>
 
-                  {/* AI Badge */}
-                  <div className="mt-6 p-4 rounded-xl bg-lime-400/5 border border-lime-400/20">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Sparkles className="w-4 h-4 text-lime-400" />
-                      <span className="text-[12px] font-semibold text-lime-400">AI Insights</span>
+                <div className="relative">
+                  <div className="relative rounded-2xl bg-black/40 border border-white/10 p-6">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-3 h-3 rounded-full bg-red-500" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                      <div className="w-3 h-3 rounded-full bg-green-500" />
+                      <span className="ml-4 text-sm text-white/40">AI Meeting Bot</span>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {['Dashboard shipped', 'API optimization', 'User testing'].map((tag, i) => (
-                        <span key={i} className="px-3 py-1 rounded-full bg-lime-400/10 text-[11px] text-lime-400/80">
-                          {tag}
-                        </span>
-                      ))}
+                    
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                        <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">📹</div>
+                        <div className="flex-1">
+                          <div className="text-sm text-white">Zoom Meeting</div>
+                          <div className="text-xs text-lime-400">Bot joined • Recording...</div>
+                        </div>
+                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                      </div>
+                      
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">👥</div>
+                        <div className="flex-1">
+                          <div className="text-sm text-white">Teams Call</div>
+                          <div className="text-xs text-white/40">Scheduled in 15 min</div>
+                        </div>
+                        <div className="w-2 h-2 rounded-full bg-yellow-500" />
+                      </div>
+                      
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                        <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">🎥</div>
+                        <div className="flex-1">
+                          <div className="text-sm text-white">Google Meet</div>
+                          <div className="text-xs text-lime-400">Processing transcript...</div>
+                        </div>
+                        <div className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
+
+          {/* Bottom CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="mt-16 text-center"
+          >
+            <Link
+              href="/signup"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-lime-400 text-black font-semibold text-[15px] hover:bg-lime-300 transition-all duration-300 group"
+            >
+              <Plug className="w-5 h-5" />
+              Connect Your Tools
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
