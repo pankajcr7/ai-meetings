@@ -830,6 +830,197 @@ export default function LandingPage() {
               </p>
             </motion.div>
 
+            {/* NEW: Meeting Quality Score */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.35 }}
+              whileHover={{ y: -5 }}
+              className="md:col-span-1 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/20 hover:border-purple-400/50 transition-all duration-500 p-6"
+            >
+              <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-purple-500/20 text-purple-400 text-[10px] font-semibold">NEW</div>
+              <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Meeting Quality Score</h3>
+              <p className="text-white/50 text-[13px] mb-3">
+                AI rates your meetings 0-100 on engagement, clarity, and actionability.
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-purple-400">87</span>
+                <span className="text-xs text-white/40">/100 avg score</span>
+              </div>
+            </motion.div>
+
+            {/* NEW: Decision Registry */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              whileHover={{ y: -5 }}
+              className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 hover:border-amber-400/50 transition-all duration-500 p-6"
+            >
+              <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-amber-500/20 text-amber-400 text-[10px] font-semibold">NEW</div>
+              <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                  <circle cx="12" cy="12" r="2"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Decision Registry</h3>
+              <p className="text-white/50 text-[13px]">
+                AI auto-extracts and tracks every decision made with impact levels.
+              </p>
+            </motion.div>
+
+            {/* NEW: Sentiment Timeline */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.45 }}
+              whileHover={{ y: -5 }}
+              className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-500/10 to-pink-600/5 border border-pink-500/20 hover:border-pink-400/50 transition-all duration-500 p-6"
+            >
+              <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-pink-500/20 text-pink-400 text-[10px] font-semibold">NEW</div>
+              <div className="w-12 h-12 rounded-xl bg-pink-500/20 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                  <line x1="9" y1="9" x2="9.01" y2="9"/>
+                  <line x1="15" y1="9" x2="15.01" y2="9"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Sentiment Timeline</h3>
+              <p className="text-white/50 text-[13px] mb-3">
+                Track emotional journey with 😊😐😔 indicators throughout meetings.
+              </p>
+              <div className="flex gap-1">
+                <div className="h-6 w-1 bg-green-500/60 rounded-full" />
+                <div className="h-4 w-1 bg-green-500/40 rounded-full" />
+                <div className="h-8 w-1 bg-green-500/80 rounded-full" />
+                <div className="h-5 w-1 bg-yellow-500/60 rounded-full" />
+                <div className="h-7 w-1 bg-green-500/70 rounded-full" />
+              </div>
+            </motion.div>
+
+            {/* NEW: Meeting Cost Calculator */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              whileHover={{ y: -5 }}
+              className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border border-emerald-500/20 hover:border-emerald-400/50 transition-all duration-500 p-6"
+            >
+              <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold">NEW</div>
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Meeting Cost Calculator</h3>
+              <p className="text-white/50 text-[13px]">
+                See real-time cost: people × duration × hourly rate. 💰
+              </p>
+            </motion.div>
+
+            {/* NEW: Conflict Detector */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+              whileHover={{ y: -5 }}
+              className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500/10 to-orange-600/5 border border-orange-500/20 hover:border-orange-400/50 transition-all duration-500 p-6"
+            >
+              <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-orange-500/20 text-orange-400 text-[10px] font-semibold">NEW</div>
+              <div className="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Conflict Detector</h3>
+              <p className="text-white/50 text-[13px]">
+                AI spots disagreements and tension points with severity ratings.
+              </p>
+            </motion.div>
+
+            {/* NEW: Company Memory Search */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              whileHover={{ y: -5 }}
+              className="md:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-cyan-500/10 to-cyan-600/5 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-500 p-6"
+            >
+              <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-cyan-500/20 text-cyan-400 text-[10px] font-semibold">NEW</div>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center shrink-0">
+                  <svg className="w-6 h-6 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Company Memory Search</h3>
+                  <p className="text-white/50 text-[13px] mb-3">
+                    Full-text search across all meetings, transcripts, and action items. Never lose a decision again.
+                  </p>
+                  <div className="flex items-center gap-2 p-2 bg-white/5 rounded-lg">
+                    <svg className="w-4 h-4 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8"/>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <span className="text-xs text-white/40">Search: &ldquo;Q4 planning decisions&rdquo;</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* NEW: AI Meeting Coach + Voice Summary */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.65 }}
+              whileHover={{ y: -5 }}
+              className="md:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-500/10 to-indigo-600/5 border border-indigo-500/20 hover:border-indigo-400/50 transition-all duration-500 p-6"
+            >
+              <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-[10px] font-semibold">NEW</div>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center shrink-0">
+                  <svg className="w-6 h-6 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="22"/>
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">AI Meeting Coach & Voice Summary</h3>
+                  <p className="text-white/50 text-[13px] mb-3">
+                    Real-time coaching suggestions during meetings + Audio summaries for on-the-go listening. 🎧
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs">
+                      <span>🎯</span> Live Coaching
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs">
+                      <span>🔊</span> Voice Playback
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
             {/* Wide Card - Dashboard Preview with Image */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
