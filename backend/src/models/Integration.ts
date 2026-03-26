@@ -1,19 +1,39 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
+export type IntegrationType = 
+  | 'zoom' | 'google-meet' | 'teams' | 'webex'
+  | 'slack' | 'notion' | 'asana' | 'trello'
+  | 'salesforce' | 'hubspot' | 'pipedrive' | 'zapier'
+  | 'google-calendar' | 'outlook-calendar';
+
 export interface IIntegration extends Document {
   team: mongoose.Types.ObjectId;
-  type: 'slack' | 'notion' | 'asana';
-  accessToken: string;
+  user: mongoose.Types.ObjectId;
+  type: IntegrationType;
+  name: string;
+  status: 'connected' | 'disconnected' | 'error';
+  accessToken?: string;
   refreshToken?: string;
-  externalWorkspaceId?: string;
-  externalWorkspaceName?: string;
+  expiresAt?: Date;
+  externalId?: string;
+  externalName?: string;
   settings: {
+    autoRecord: boolean;
     autoSync: boolean;
-    channelId?: string;
-    databaseId?: string;
-    projectId?: string;
+    defaultChannel?: string;
+    defaultDatabase?: string;
+    defaultProject?: string;
+    notifyOnComplete: boolean;
+    summaryTemplate?: string;
   };
-  connectedBy?: mongoose.Types.ObjectId;
+  webhooks?: {
+    url: string;
+    events: string[];
+    secret?: string;
+  }[];
+  metadata?: Record<string, any>;
+  lastUsedAt?: Date;
+  lastError?: string;
   connectedAt: Date;
   updatedAt: Date;
 }
@@ -23,43 +43,86 @@ const integrationSchema = new Schema<IIntegration>({
     type: Schema.Types.ObjectId,
     ref: 'Team',
     required: true,
+    index: true,
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   type: {
     type: String,
-    enum: ['slack', 'notion', 'asana'],
+    enum: [
+      'zoom', 'google-meet', 'teams', 'webex',
+      'slack', 'notion', 'asana', 'trello',
+      'salesforce', 'hubspot', 'pipedrive', 'zapier',
+      'google-calendar', 'outlook-calendar'
+    ],
     required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['connected', 'disconnected', 'error'],
+    default: 'connected',
   },
   accessToken: {
     type: String,
-    required: true,
   },
   refreshToken: {
     type: String,
   },
-  externalWorkspaceId: {
+  expiresAt: {
+    type: Date,
+  },
+  externalId: {
     type: String,
   },
-  externalWorkspaceName: {
+  externalName: {
     type: String,
   },
   settings: {
+    autoRecord: {
+      type: Boolean,
+      default: true,
+    },
     autoSync: {
       type: Boolean,
       default: false,
     },
-    channelId: {
+    defaultChannel: {
       type: String,
     },
-    databaseId: {
+    defaultDatabase: {
       type: String,
     },
-    projectId: {
+    defaultProject: {
+      type: String,
+    },
+    notifyOnComplete: {
+      type: Boolean,
+      default: true,
+    },
+    summaryTemplate: {
       type: String,
     },
   },
-  connectedBy: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+  webhooks: [{
+    url: String,
+    events: [String],
+    secret: String,
+  }],
+  metadata: {
+    type: Schema.Types.Mixed,
+  },
+  lastUsedAt: {
+    type: Date,
+  },
+  lastError: {
+    type: String,
   },
   connectedAt: {
     type: Date,
@@ -72,6 +135,8 @@ const integrationSchema = new Schema<IIntegration>({
 });
 
 integrationSchema.index({ team: 1, type: 1 }, { unique: true });
+integrationSchema.index({ user: 1 });
+integrationSchema.index({ status: 1 });
 
 integrationSchema.pre('save', function (next) {
   this.updatedAt = new Date();

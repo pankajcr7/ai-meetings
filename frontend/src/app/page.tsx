@@ -40,7 +40,115 @@ import {
   Video,
   Layers,
   Briefcase,
+  Calendar,
+  Bot,
+  Radio,
 } from 'lucide-react';
+
+/* ═══════════════════ PLATFORM ICONS ═══════════════════ */
+function ZoomIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M4.585 12.04c0 1.794.359 3.512 1.008 5.09 1.05 2.64 3.102 4.755 5.679 5.867 1.278.522 2.679.802 4.149.802 4.885 0 8.885-3.748 9.295-8.512l.05-.588c.018-.218.033-.437.033-.66 0-4.996-4.04-9.05-9.024-9.05-1.48 0-2.879.36-4.105.998-2.674 1.36-4.621 3.84-5.367 6.85-.098.39-.173.787-.224 1.193-.047.383-.076.773-.076 1.17 0 .31.02.615.058.916l-.066-.288z"/>
+      <path fill="#fff" d="M10.5 8.5c-.3 0-.5.2-.5.5v6c0 .3.2.5.5.5h4c.3 0 .5-.2.5-.5V9c0-.3-.2-.5-.5-.5h-4z"/>
+      <path fill="#fff" d="M15.5 9.5l3-2v7l-3-2v-3z"/>
+    </svg>
+  );
+}
+
+function TeamsIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20.625 8.438h-3.75V3.188A3.19 3.19 0 0 0 13.687 0h-3.75A3.19 3.19 0 0 0 6.75 3.188v5.25H3a3.188 3.188 0 0 0 0 6.375h3.75v5.25A3.19 3.19 0 0 0 9.938 23.25h3.75a3.19 3.19 0 0 0 3.187-3.187v-5.25h3.75a3.188 3.188 0 0 0 0-6.375z"/>
+      <circle cx="18.188" cy="5.813" r="2.813"/>
+      <circle cx="18.188" cy="13.5" r="2.813"/>
+    </svg>
+  );
+}
+
+function MeetIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1z"/>
+      <path d="M6.52 14.54c-.58.39-1.38.23-1.76-.36-.35-.53-.17-1.24.38-1.57l6.63-4.11c.65-.4 1.48-.23 1.93.4l.01.01c.39.54.28 1.3-.26 1.7l-6.93 4.93z"/>
+      <path d="M22 6.55V17.5c0 1.24-1.01 2.25-2.25 2.25h-.75v-3.75c0-1.24-1.01-2.25-2.25-2.25h-3v-3h3c1.24 0 2.25-1.01 2.25-2.25V4.3h.75C20.99 4.3 22 5.31 22 6.55z"/>
+      <path d="M16.75 8.5V17.5c0 1.24-1.01 2.25-2.25 2.25H4.25C3.01 19.75 2 18.74 2 17.5V6.55c0-1.24 1.01-2.25 2.25-2.25h10.25c1.24 0 2.25 1.01 2.25 2.25v1.95z"/>
+    </svg>
+  );
+}
+
+function SlackIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
+    </svg>
+  );
+}
+
+function NotionIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 2.3c-.42-.326-.98-.7-2.055-.607L3.01 3.13c-.466.046-.56.28-.374.466l1.823 1.612zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.934zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952l1.448.327s0 .84-1.168.84l-3.22.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.14c-.093-.514.28-.887.747-.933l3.22-.187z"/>
+    </svg>
+  );
+}
+
+function AsanaIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.78 12.653c-2.437 0-4.415 1.978-4.415 4.415 0 2.437 1.978 4.415 4.415 4.415 2.437 0 4.415-1.978 4.415-4.415 0-2.437-1.978-4.415-4.415-4.415zm0 6.573c-1.192 0-2.158-.966-2.158-2.158 0-1.192.966-2.158 2.158-2.158 1.192 0 2.158.966 2.158 2.158 0 1.192-.966 2.158-2.158 2.158zM12 12.653c-2.437 0-4.415 1.978-4.415 4.415 0 2.437 1.978 4.415 4.415 4.415 2.437 0 4.415-1.978 4.415-4.415 0-2.437-1.978-4.415-4.415-4.415zm0 6.573c-1.192 0-2.158-.966-2.158-2.158 0-1.192.966-2.158 2.158-2.158 1.192 0 2.158.966 2.158 2.158 0 1.192-.966 2.158-2.158 2.158zM5.22 12.653c-2.437 0-4.415 1.978-4.415 4.415 0 2.437 1.978 4.415 4.415 4.415 2.437 0 4.415-1.978 4.415-4.415 0-2.437-1.978-4.415-4.415-4.415zm0 6.573c-1.192 0-2.158-.966-2.158-2.158 0-1.192.966-2.158 2.158-2.158 1.192 0 2.158.966 2.158 2.158 0 1.192-.966 2.158-2.158 2.158z"/>
+    </svg>
+  );
+}
+
+function TrelloIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M21 0H3C1.343 0 0 1.343 0 3v18c0 1.656 1.343 3 3 3h18c1.656 0 3-1.344 3-3V3c0-1.657-1.344-3-3-3zM10.44 18.18c0 .795-.645 1.44-1.44 1.44H4.56c-.795 0-1.44-.646-1.44-1.44V4.56c0-.795.645-1.44 1.44-1.44H9c.795 0 1.44.645 1.44 1.44v13.62zm10.44-6.3c0 .795-.645 1.44-1.44 1.44h-3.84c-.795 0-1.44-.645-1.44-1.44V4.56c0-.795.646-1.44 1.44-1.44h3.84c.795 0 1.44.645 1.44 1.44v7.32z"/>
+    </svg>
+  );
+}
+
+function SalesforceIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M10.006 5.415a4.195 4.195 0 0 1 3.045-1.306c1.56 0 2.954.9 3.576 2.266a5.21 5.21 0 0 1 2.146-.461c2.79 0 5.052 2.17 5.052 4.847 0 2.677-2.262 4.847-5.052 4.847a5.09 5.09 0 0 1-.775-.058c-.54 1.213-1.704 2.054-3.05 2.054a3.79 3.79 0 0 1-1.78-.443c-.54 1.38-1.848 2.35-3.373 2.35-1.739 0-3.191-1.177-3.64-2.791a3.15 3.15 0 0 1-.6.057c-1.862 0-3.372-1.454-3.372-3.247 0-1.065.53-2.01 1.342-2.609a3.81 3.81 0 0 1-.294-1.466c0-2.155 1.79-3.901 3.998-3.901 1.257 0 2.38.57 3.125 1.47z"/>
+    </svg>
+  );
+}
+
+function HubSpotIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.164 7.93V5.084a2.2 2.2 0 0 0 1.267-1.986 2.24 2.24 0 0 0-2.242-2.223 2.24 2.24 0 0 0-2.24 2.223c0 .849.482 1.576 1.181 1.947v2.88a7.077 7.077 0 0 0-4.018 2.425l-8.55-6.65a2.855 2.855 0 0 0-.108-.896 2.873 2.873 0 0 0-2.867-2.69 2.879 2.879 0 0 0-2.887 2.87 2.879 2.879 0 0 0 2.887 2.87c.656 0 1.26-.22 1.746-.589l8.443 6.57a7.03 7.03 0 0 0-.219 1.762 7.03 7.03 0 0 0 .31 2.058l-2.823 2.4a2.468 2.468 0 0 0-1.51-.52 2.5 2.5 0 0 0-2.5 2.498A2.5 2.5 0 0 0 4.9 22.5a2.5 2.5 0 0 0 2.499-2.498c0-.353-.074-.688-.206-.994l2.682-2.278a7.045 7.045 0 0 0 4.855 1.944 7.045 7.045 0 0 0 5.27-11.746zm-3.894 5.816a1.588 1.588 0 0 1-1.588 1.588 1.588 1.588 0 0 1-1.588-1.588 1.588 1.588 0 0 1 1.588-1.588 1.588 1.588 0 0 1 1.588 1.588z"/>
+    </svg>
+  );
+}
+
+function ZapierIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.607 8.294l-2.14-2.14a.46.46 0 0 0-.652 0l-2.14 2.14a.462.462 0 0 0 0 .652l2.14 2.14a.46.46 0 0 0 .652 0l2.14-2.14a.462.462 0 0 0 0-.652zM12.96 3.94a.46.46 0 0 0-.652 0L10.17 6.08a.462.462 0 0 0 0 .652l2.14 2.14a.46.46 0 0 0 .652 0l2.14-2.14a.462.462 0 0 0 0-.652l-2.14-2.14zM6.343 3.94a.46.46 0 0 0-.652 0l-2.14 2.14a.462.462 0 0 0 0 .652l2.14 2.14a.46.46 0 0 0 .652 0l2.14-2.14a.462.462 0 0 0 0-.652l-2.14-2.14zm-.657 4.354a.46.46 0 0 0-.652 0l-2.14 2.14a.462.462 0 0 0 0 .652l2.14 2.14a.46.46 0 0 0 .652 0l2.14-2.14a.462.462 0 0 0 0-.652l-2.14-2.14zm6.6 6.6a.46.46 0 0 0-.652 0l-2.14 2.14a.462.462 0 0 0 0 .652l2.14 2.14a.46.46 0 0 0 .652 0l2.14-2.14a.462.462 0 0 0 0-.652l-2.14-2.14zm-6.6 0a.46.46 0 0 0-.652 0l-2.14 2.14a.462.462 0 0 0 0 .652l2.14 2.14a.46.46 0 0 0 .652 0l2.14-2.14a.462.462 0 0 0 0-.652l-2.14-2.14z"/>
+    </svg>
+  );
+}
+
+function PipedriveIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15V7h2c1.66 0 3 1.34 3 3v1c0 1.66-1.34 3-3 3h-2v3zm2-8h-2v4h2c1.1 0 2-.9 2-2v-.5c0-.83-.67-1.5-1.5-1.5z"/>
+    </svg>
+  );
+}
+
+function WebexIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2V9h2v8zm6 0h-2V9h2v8z"/>
+      <circle cx="12" cy="7" r="2"/>
+    </svg>
+  );
+}
 
 /* ═══════════════════ ANIMATED COUNTER ═══════════════════ */
 function Counter({ target, suffix = '' }: { target: number; suffix: string }) {
@@ -858,10 +966,10 @@ export default function LandingPage() {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { name: 'Zoom', icon: '📹', color: 'from-blue-500/20 to-blue-600/10', desc: 'Auto-join & record' },
-                  { name: 'Google Meet', icon: '🎥', color: 'from-green-500/20 to-green-600/10', desc: 'Chrome extension' },
-                  { name: 'Microsoft Teams', icon: '👥', color: 'from-purple-500/20 to-purple-600/10', desc: 'Bot integration' },
-                  { name: 'Webex', icon: '🌐', color: 'from-blue-400/20 to-blue-500/10', desc: 'Meeting assistant' },
+                  { name: 'Zoom', Icon: ZoomIcon, color: 'from-blue-500/20 to-blue-600/10', desc: 'Auto-join & record', status: 'live' },
+                  { name: 'Google Meet', Icon: MeetIcon, color: 'from-green-500/20 to-green-600/10', desc: 'Chrome extension', status: 'live' },
+                  { name: 'Microsoft Teams', Icon: TeamsIcon, color: 'from-purple-500/20 to-purple-600/10', desc: 'Bot integration', status: 'live' },
+                  { name: 'Webex', Icon: WebexIcon, color: 'from-blue-400/20 to-blue-500/10', desc: 'Meeting assistant', status: 'live' },
                 ].map((platform, i) => (
                   <motion.div
                     key={i}
@@ -872,10 +980,17 @@ export default function LandingPage() {
                     whileHover={{ y: -5, scale: 1.02 }}
                     className={`group relative p-6 rounded-2xl bg-gradient-to-br ${platform.color} border border-white/10 hover:border-lime-400/30 transition-all duration-300`}
                   >
-                    <div className="text-3xl mb-3">{platform.icon}</div>
+                    <div className="flex items-center justify-between mb-4">
+                      <platform.Icon className="w-10 h-10 text-white" />
+                      {platform.status === 'live' && (
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px] font-medium text-lime-400 uppercase">LIVE</span>
+                          <div className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
+                        </div>
+                      )}
+                    </div>
                     <h4 className="text-lg font-semibold text-white mb-1">{platform.name}</h4>
                     <p className="text-[13px] text-white/50">{platform.desc}</p>
-                    <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
                   </motion.div>
                 ))}
               </div>
@@ -895,10 +1010,10 @@ export default function LandingPage() {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { name: 'Slack', icon: '💬', color: 'from-purple-500/20 to-purple-600/10', desc: 'Auto-share summaries' },
-                  { name: 'Notion', icon: '📝', color: 'from-gray-500/20 to-gray-600/10', desc: 'Meeting database' },
-                  { name: 'Asana', icon: '✅', color: 'from-pink-500/20 to-pink-600/10', desc: 'Task sync' },
-                  { name: 'Trello', icon: '📋', color: 'from-blue-500/20 to-blue-600/10', desc: 'Card creation' },
+                  { name: 'Slack', Icon: SlackIcon, color: 'from-purple-500/20 to-purple-600/10', desc: 'Auto-share summaries' },
+                  { name: 'Notion', Icon: NotionIcon, color: 'from-gray-500/20 to-gray-600/10', desc: 'Meeting database' },
+                  { name: 'Asana', Icon: AsanaIcon, color: 'from-pink-500/20 to-pink-600/10', desc: 'Task sync' },
+                  { name: 'Trello', Icon: TrelloIcon, color: 'from-blue-500/20 to-blue-600/10', desc: 'Card creation' },
                 ].map((platform, i) => (
                   <motion.div
                     key={i}
@@ -909,7 +1024,7 @@ export default function LandingPage() {
                     whileHover={{ y: -5, scale: 1.02 }}
                     className={`group relative p-6 rounded-2xl bg-gradient-to-br ${platform.color} border border-white/10 hover:border-lime-400/30 transition-all duration-300`}
                   >
-                    <div className="text-3xl mb-3">{platform.icon}</div>
+                    <platform.Icon className="w-10 h-10 text-white mb-4" />
                     <h4 className="text-lg font-semibold text-white mb-1">{platform.name}</h4>
                     <p className="text-[13px] text-white/50">{platform.desc}</p>
                   </motion.div>
@@ -931,10 +1046,10 @@ export default function LandingPage() {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { name: 'Salesforce', icon: '☁️', color: 'from-blue-400/20 to-blue-500/10', desc: 'Lead tracking' },
-                  { name: 'HubSpot', icon: '🎯', color: 'from-orange-500/20 to-orange-600/10', desc: 'Contact sync' },
-                  { name: 'Pipedrive', icon: '📊', color: 'from-green-500/20 to-green-600/10', desc: 'Deal updates' },
-                  { name: 'Zapier', icon: '⚡', color: 'from-orange-400/20 to-orange-500/10', desc: '5,000+ apps' },
+                  { name: 'Salesforce', Icon: SalesforceIcon, color: 'from-blue-400/20 to-blue-500/10', desc: 'Lead tracking' },
+                  { name: 'HubSpot', Icon: HubSpotIcon, color: 'from-orange-500/20 to-orange-600/10', desc: 'Contact sync' },
+                  { name: 'Pipedrive', Icon: PipedriveIcon, color: 'from-green-500/20 to-green-600/10', desc: 'Deal updates' },
+                  { name: 'Zapier', Icon: ZapierIcon, color: 'from-orange-400/20 to-orange-500/10', desc: '5,000+ apps' },
                 ].map((platform, i) => (
                   <motion.div
                     key={i}
@@ -945,7 +1060,7 @@ export default function LandingPage() {
                     whileHover={{ y: -5, scale: 1.02 }}
                     className={`group relative p-6 rounded-2xl bg-gradient-to-br ${platform.color} border border-white/10 hover:border-lime-400/30 transition-all duration-300`}
                   >
-                    <div className="text-3xl mb-3">{platform.icon}</div>
+                    <platform.Icon className="w-10 h-10 text-white mb-4" />
                     <h4 className="text-lg font-semibold text-white mb-1">{platform.name}</h4>
                     <p className="text-[13px] text-white/50">{platform.desc}</p>
                   </motion.div>
@@ -1010,16 +1125,25 @@ export default function LandingPage() {
                     
                     <div className="space-y-3">
                       <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
-                        <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">📹</div>
+                        <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
+                          <ZoomIcon className="w-6 h-6 text-blue-400" />
+                        </div>
                         <div className="flex-1">
                           <div className="text-sm text-white">Zoom Meeting</div>
-                          <div className="text-xs text-lime-400">Bot joined • Recording...</div>
+                          <div className="text-xs text-lime-400 flex items-center gap-1">
+                            <Bot className="w-3 h-3" /> Bot joined • Recording...
+                          </div>
                         </div>
-                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                        <div className="flex items-center gap-1">
+                          <span className="text-[10px] text-red-400 uppercase font-medium">REC</span>
+                          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                        </div>
                       </div>
                       
                       <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
-                        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">👥</div>
+                        <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+                          <TeamsIcon className="w-6 h-6 text-purple-400" />
+                        </div>
                         <div className="flex-1">
                           <div className="text-sm text-white">Teams Call</div>
                           <div className="text-xs text-white/40">Scheduled in 15 min</div>
@@ -1028,10 +1152,14 @@ export default function LandingPage() {
                       </div>
                       
                       <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
-                        <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">🎥</div>
+                        <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                          <MeetIcon className="w-6 h-6 text-green-400" />
+                        </div>
                         <div className="flex-1">
                           <div className="text-sm text-white">Google Meet</div>
-                          <div className="text-xs text-lime-400">Processing transcript...</div>
+                          <div className="text-xs text-lime-400 flex items-center gap-1">
+                            <Sparkles className="w-3 h-3" /> Processing transcript...
+                          </div>
                         </div>
                         <div className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
                       </div>
